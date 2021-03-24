@@ -433,7 +433,6 @@ components:
         type: boolean
   requestBodies:
     Account:
-      required: true
       content:
         application/json:
           schema:
@@ -451,9 +450,6 @@ components:
   schemas:
     Account:
       type: object
-      required:
-        - username
-        - password
       properties:
         username:
           type: string

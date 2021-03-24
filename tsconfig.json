@@ -26,7 +26,10 @@
     "types": [
       "@nuxt/types",
       "@nuxtjs/axios",
-      "@types/node"
+      "@types/node",
+      "@types/mocha",
+      "@types/chai",
+      "@types/jest"
     ]
   },
   "exclude": [

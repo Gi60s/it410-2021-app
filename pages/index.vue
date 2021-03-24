@@ -1,75 +1,61 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        todo
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+    <h2>Tasklists</h2>
+    <p>
+      <el-button type="primary" @click="showModal(true)">Create New</el-button>
+    </p>
+    <div v-for="list in taskLists" :key="list.id" class="task-list">
+      <nuxt-link :to="'lists/' + list.id">{{list.name}}</nuxt-link>
     </div>
+
+    <el-dialog title="Create New Tasklist" :visible.sync="modalIsVisible">
+      <el-form>
+        <el-form-item label="Tasklist Name">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="createTasklist()">Create</el-button>
+          <el-button @click="showModal(false)">Cancel</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+
+  data () {
+    this.$store.dispatch('todoLists/get')
+    return {
+      form: {
+        name: ''
+      },
+      modalIsVisible: false
+    }
+  },
+
+  computed: {
+    taskLists () {
+      return this.$store.state.todoLists.lists
+    }
+  },
+
+  methods: {
+    createTasklist () {
+      this.$store.dispatch('todoLists/add', this.form.name)
+      this.showModal(false)
+    },
+    showModal (show: boolean) {
+      this.form.name = ''
+      this.modalIsVisible = show
+    }
+  }
+})
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style lang="stylus">
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>

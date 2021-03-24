@@ -6,7 +6,7 @@ CREATE TABLE "accounts" (
   "id" character(32) NOT NULL,
   "username" character varying(40) NOT NULL,
   "password" character varying(80) NOT NULL,
-  "session_id": character varying(32) NOT NULL
+  "session_id": character varying(32)
   PRIMARY KEY ("id")
 );
 
